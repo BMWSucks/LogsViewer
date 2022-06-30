@@ -20,11 +20,11 @@ namespace LogsViewer_
         }
         private void ConfigEditorForm_Load(object sender, EventArgs e)
         {
-            string path = "C:\\Users\\User\\Documents\\Siroca\\LogsViewer\\connectionConfigs.json";
+            string path = "connectionConfigs.json";
             List < ConnectionConfig > jt = new List<ConnectionConfig> ();
             if (!File.Exists(path)){
                 MessageBox.Show("Файла не существует");
-                Application.Exit();
+                return;
                 
             }
             try
@@ -46,7 +46,7 @@ namespace LogsViewer_
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string path = "C:\\Users\\User\\Documents\\Siroca\\LogsViewer\\connectionConfigs.json";
+            string path = "connectionConfigs.json";
             checkToNull(dataGridView1);
             string s = "[";
             ConnectionConfig[] cc = formArray(dataGridView1);
@@ -63,12 +63,12 @@ namespace LogsViewer_
             }
             s += "]";
             if(!File.Exists(path)){
-                File.Create(path);
+                File.Create(path).Close();
             }
             System.IO.File.WriteAllText(path, s);
 
         }
-        public bool checkToNull(DataGridView dt){
+        public bool checkToNull(DataGridView dt ){
             bool flag = true;
             for (int i = 0; i < dt.RowCount - 1; i++)
             {
