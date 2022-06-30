@@ -92,7 +92,14 @@ namespace LogsViewer_
         ConnectionConfig[] result = new ConnectionConfig[dt.Rows.Count - 1];
             for (int i = 0; i < dt.Rows.Count - 1; i++)
             {
-                result[i] = new ConnectionConfig(dt[0, i].Value.ToString(), dt[1, i].Value.ToString());
+                if (dt[1, i].Value != null)
+                {
+                    result[i] = new ConnectionConfig(dt[0, i].Value.ToString(), dt[1, i].Value.ToString());
+                }
+                else
+                {
+                    result[i] = new ConnectionConfig(dt[0, i].Value.ToString(), "");
+                }
             }
         return result;
         }
