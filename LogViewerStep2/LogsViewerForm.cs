@@ -12,15 +12,10 @@ namespace LogViewerStep2
 
         private void LogsViewerForm_Load(object sender, EventArgs e)
         {
-            string[] arrayLogText = File.ReadAllText("Logs.txt").Split(new char[] { '\t', '\n' });
-            for (int i = 0; i < arrayLogText.Length / dataGridView1.Columns.Count; i++)
+            string[] arrayLogText = File.ReadAllText("Logs.txt").Split('\n');
+            for (int i = 0; i < arrayLogText.Length; i++)
             {
-                string[] logLine = new string[dataGridView1.Columns.Count];
-                for (int j = 0; j < dataGridView1.Columns.Count; j++)
-                {
-                    int countLog = i * dataGridView1.Columns.Count + j;
-                    logLine[j] = arrayLogText[countLog];
-                }
+                string[] logLine = arrayLogText[i].Split('\t');
                 logList.Add(Log.createLog(logLine));
                 dataGridView1.Rows.Add(logLine);
             }
