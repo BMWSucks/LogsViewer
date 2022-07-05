@@ -17,31 +17,29 @@ namespace LogViewerStep2
             {
                 string[] logLine = arrayLogText[i].Split('\t');
                 logList.Add(Log.createLog(logLine));
-                dataGridView1.Rows.Add(logLine);
             }
+            dataGridView1.DataSource = logList;
             string[] arrayLogDetailsText = File.ReadAllText("LogDetails.txt").Split('\n');
             for (int i = 0; i < arrayLogDetailsText.Length; i++)
             {
                 string[] logDetailsLine = arrayLogDetailsText[i].Split('\t');
                 logDetailsList.Add(LogDetails.createLogDetails(logDetailsLine));
-                dataGridView2.Rows.Add(logDetailsLine);
             }
+            dataGridView2.DataSource = logDetailsList;
         }
 
-        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void focusChanged(object sender, EventArgs e)
         {
-            if (dataGridView1.CurrentCell.ColumnIndex != 0)
-            {
-                return;
-            }
-            dataGridView2.Rows.Clear();
+            List<LogDetails> logDetailsVisible = new List<LogDetails>(); 
             foreach (LogDetails logDetails in logDetailsList)
             {
-                if (logDetails.LogId == int.Parse(dataGridView1.CurrentCell.Value.ToString()))
+                int.TryParse(dataGridView1[0, dataGridView1.CurrentCell.RowIndex].Value.ToString(), out int result);
+                if (result == logDetails.LogId)
                 {
-                    dataGridView2.Rows.Add(logDetails.get());
+                    logDetailsVisible.Add(logDetails);
                 }
             }
+            dataGridView2.DataSource = logDetailsVisible;
         }
     }
 }
